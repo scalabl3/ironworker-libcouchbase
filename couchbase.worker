@@ -1,0 +1,18 @@
+# define the runtime language
+runtime "ruby"
+# exec is the file that will be executed:
+exec "cb.rb"
+ 
+# it's needed for gem building
+dir "libcouchbase"
+ 
+# libcouchbase.so.2 is required by couchbase_ext.so,
+# so the easiest way to make it work - just merge deb which you already have
+deb "debs/libcouchbase2-core_2.0.3-443_amd64.deb"
+ 
+# need to point out path with headers and library, for gem building
+build "gem install couchbase -i __gems__ -- --with-libcouchbase-include=`pwd`/libcouchbase/usr/include/ --with-libcouchbase-lib=`pwd`/libcouchbase/usr/lib/"
+ 
+full_remote_build true
+
+gem 'pubnub'
